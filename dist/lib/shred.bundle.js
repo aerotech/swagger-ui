@@ -445,7 +445,7 @@ var makeLogger = function(level,fn) {
 
 var Logger = function(options) {
   var logger = this;
-  var options = options||{};
+	var options = options||{};
 
   // Default options
   options.level = options.level || "info";
@@ -468,9 +468,9 @@ var Logger = function(options) {
     logger.stream = fs.createWriteStream(logger.options.file, {"flags": "a"});
   } else {
       if(process.title === "node")
-    logger.stream = process.stderr;
+	  logger.stream = process.stderr;
       else if(process.title === "browser")
-    logger.stream = function () {
+	  logger.stream = function () {
       // Work around weird console context issue: http://code.google.com/p/chromium/issues/detail?id=48662
       return console[logger.options.level].apply(console, arguments);
     };
@@ -496,9 +496,9 @@ Logger.writer = function(level){
     var logger = this;
 
     if(process.title === "node")
-  logger.stream.write(logger.format(level, message) + '\n');
+	logger.stream.write(logger.format(level, message) + '\n');
     else if(process.title === "browser")
-  logger.stream(logger.format(level, message) + '\n');
+	logger.stream(logger.format(level, message) + '\n');
 
   };
 }
@@ -542,11 +542,11 @@ require.define("/node_modules/cookiejar/package.json", function (require, module
 require.define("/node_modules/cookiejar/cookiejar.js", function (require, module, exports, __dirname, __filename) {
     exports.CookieAccessInfo=CookieAccessInfo=function CookieAccessInfo(domain,path,secure,script) {
     if(this instanceof CookieAccessInfo) {
-      this.domain=domain||undefined;
-      this.path=path||"/";
-      this.secure=!!secure;
-      this.script=!!script;
-      return this;
+    	this.domain=domain||undefined;
+    	this.path=path||"/";
+    	this.secure=!!secure;
+    	this.script=!!script;
+    	return this;
     }
     else {
         return new CookieAccessInfo(domain,path,secure,script)    
@@ -554,214 +554,214 @@ require.define("/node_modules/cookiejar/cookiejar.js", function (require, module
 }
 
 exports.Cookie=Cookie=function Cookie(cookiestr) {
-  if(cookiestr instanceof Cookie) {
-    return cookiestr;
-  }
+	if(cookiestr instanceof Cookie) {
+		return cookiestr;
+	}
     else {
         if(this instanceof Cookie) {
-          this.name = null;
-          this.value = null;
-          this.expiration_date = Infinity;
-          this.path = "/";
-          this.domain = null;
-          this.secure = false; //how to define?
-          this.noscript = false; //httponly
-          if(cookiestr) {
-            this.parse(cookiestr)
-          }
-          return this;
+        	this.name = null;
+        	this.value = null;
+        	this.expiration_date = Infinity;
+        	this.path = "/";
+        	this.domain = null;
+        	this.secure = false; //how to define?
+        	this.noscript = false; //httponly
+        	if(cookiestr) {
+        		this.parse(cookiestr)
+        	}
+        	return this;
         }
         return new Cookie(cookiestr)
     }
 }
 
 Cookie.prototype.toString = function toString() {
-  var str=[this.name+"="+this.value];
-  if(this.expiration_date !== Infinity) {
-    str.push("expires="+(new Date(this.expiration_date)).toGMTString());
-  }
-  if(this.domain) {
-    str.push("domain="+this.domain);
-  }
-  if(this.path) {
-    str.push("path="+this.path);
-  }
-  if(this.secure) {
-    str.push("secure");
-  }
-  if(this.noscript) {
-    str.push("httponly");
-  }
-  return str.join("; ");
+	var str=[this.name+"="+this.value];
+	if(this.expiration_date !== Infinity) {
+		str.push("expires="+(new Date(this.expiration_date)).toGMTString());
+	}
+	if(this.domain) {
+		str.push("domain="+this.domain);
+	}
+	if(this.path) {
+		str.push("path="+this.path);
+	}
+	if(this.secure) {
+		str.push("secure");
+	}
+	if(this.noscript) {
+		str.push("httponly");
+	}
+	return str.join("; ");
 }
 
 Cookie.prototype.toValueString = function toValueString() {
-  return this.name+"="+this.value;
+	return this.name+"="+this.value;
 }
 
 var cookie_str_splitter=/[:](?=\s*[a-zA-Z0-9_\-]+\s*[=])/g
 Cookie.prototype.parse = function parse(str) {
-  if(this instanceof Cookie) {
-      var parts=str.split(";")
-      , pair=parts[0].match(/([^=]+)=((?:.|\n)*)/)
-      , key=pair[1]
-      , value=pair[2];
-      this.name = key;
-      this.value = value;
+	if(this instanceof Cookie) {
+    	var parts=str.split(";")
+    	, pair=parts[0].match(/([^=]+)=((?:.|\n)*)/)
+    	, key=pair[1]
+    	, value=pair[2];
+    	this.name = key;
+    	this.value = value;
     
-      for(var i=1;i<parts.length;i++) {
-        pair=parts[i].match(/([^=]+)(?:=((?:.|\n)*))?/)
-        , key=pair[1].trim().toLowerCase()
-        , value=pair[2];
-        switch(key) {
-          case "httponly":
-            this.noscript = true;
-          break;
-          case "expires":
-            this.expiration_date = value
-              ? Number(Date.parse(value))
-              : Infinity;
-          break;
-          case "path":
-            this.path = value
-              ? value.trim()
-              : "";
-          break;
-          case "domain":
-            this.domain = value
-              ? value.trim()
-              : "";
-          break;
-          case "secure":
-            this.secure = true;
-          break
-        }
-      }
+    	for(var i=1;i<parts.length;i++) {
+    		pair=parts[i].match(/([^=]+)(?:=((?:.|\n)*))?/)
+    		, key=pair[1].trim().toLowerCase()
+    		, value=pair[2];
+    		switch(key) {
+    			case "httponly":
+    				this.noscript = true;
+    			break;
+    			case "expires":
+    				this.expiration_date = value
+    					? Number(Date.parse(value))
+    					: Infinity;
+    			break;
+    			case "path":
+    				this.path = value
+    					? value.trim()
+    					: "";
+    			break;
+    			case "domain":
+    				this.domain = value
+    					? value.trim()
+    					: "";
+    			break;
+    			case "secure":
+    				this.secure = true;
+    			break
+    		}
+    	}
     
-      return this;
-  }
+    	return this;
+	}
     return new Cookie().parse(str)
 }
 
 Cookie.prototype.matches = function matches(access_info) {
-  if(this.noscript && access_info.script
-  || this.secure && !access_info.secure
-  || !this.collidesWith(access_info)) {
-    return false
-  }
-  return true;
+	if(this.noscript && access_info.script
+	|| this.secure && !access_info.secure
+	|| !this.collidesWith(access_info)) {
+		return false
+	}
+	return true;
 }
 
 Cookie.prototype.collidesWith = function collidesWith(access_info) {
-  if((this.path && !access_info.path) || (this.domain && !access_info.domain)) {
-    return false
-  }
-  if(this.path && access_info.path.indexOf(this.path) !== 0) {
-    return false;
-  }
-  if (this.domain===access_info.domain) {
-    return true;
-  }
-  else if(this.domain && this.domain.charAt(0)===".")
-  {
-    var wildcard=access_info.domain.indexOf(this.domain.slice(1))
-    if(wildcard===-1 || wildcard!==access_info.domain.length-this.domain.length+1) {
-      return false;
-    }
-  }
-  else if(this.domain){
-    return false
-  }
-  return true;
+	if((this.path && !access_info.path) || (this.domain && !access_info.domain)) {
+		return false
+	}
+	if(this.path && access_info.path.indexOf(this.path) !== 0) {
+		return false;
+	}
+	if (this.domain===access_info.domain) {
+		return true;
+	}
+	else if(this.domain && this.domain.charAt(0)===".")
+	{
+		var wildcard=access_info.domain.indexOf(this.domain.slice(1))
+		if(wildcard===-1 || wildcard!==access_info.domain.length-this.domain.length+1) {
+			return false;
+		}
+	}
+	else if(this.domain){
+		return false
+	}
+	return true;
 }
 
 exports.CookieJar=CookieJar=function CookieJar() {
-  if(this instanceof CookieJar) {
-      var cookies = {} //name: [Cookie]
+	if(this instanceof CookieJar) {
+    	var cookies = {} //name: [Cookie]
     
-      this.setCookie = function setCookie(cookie) {
-        cookie = Cookie(cookie);
-        //Delete the cookie if the set is past the current time
-        var remove = cookie.expiration_date <= Date.now();
-        if(cookie.name in cookies) {
-          var cookies_list = cookies[cookie.name];
-          for(var i=0;i<cookies_list.length;i++) {
-            var collidable_cookie = cookies_list[i];
-            if(collidable_cookie.collidesWith(cookie)) {
-              if(remove) {
-                cookies_list.splice(i,1);
-                if(cookies_list.length===0) {
-                  delete cookies[cookie.name]
-                }
-                return false;
-              }
-              else {
-                return cookies_list[i]=cookie;
-              }
-            }
-          }
-          if(remove) {
-            return false;
-          }
-          cookies_list.push(cookie);
-          return cookie;
-        }
-        else if(remove){
-          return false;
-        }
-        else {
-          return cookies[cookie.name]=[cookie];
-        }
-      }
-      //returns a cookie
-      this.getCookie = function getCookie(cookie_name,access_info) {
-        var cookies_list = cookies[cookie_name];
-        for(var i=0;i<cookies_list.length;i++) {
-          var cookie = cookies_list[i];
-          if(cookie.expiration_date <= Date.now()) {
-            if(cookies_list.length===0) {
-              delete cookies[cookie.name]
-            }
-            continue;
-          }
-          if(cookie.matches(access_info)) {
-            return cookie;
-          }
-        }
-      }
-      //returns a list of cookies
-      this.getCookies = function getCookies(access_info) {
-        var matches=[];
-        for(var cookie_name in cookies) {
-          var cookie=this.getCookie(cookie_name,access_info);
-          if (cookie) {
-            matches.push(cookie);
-          }
-        }
-        matches.toString=function toString(){return matches.join(":");}
+    	this.setCookie = function setCookie(cookie) {
+    		cookie = Cookie(cookie);
+    		//Delete the cookie if the set is past the current time
+    		var remove = cookie.expiration_date <= Date.now();
+    		if(cookie.name in cookies) {
+    			var cookies_list = cookies[cookie.name];
+    			for(var i=0;i<cookies_list.length;i++) {
+    				var collidable_cookie = cookies_list[i];
+    				if(collidable_cookie.collidesWith(cookie)) {
+    					if(remove) {
+    						cookies_list.splice(i,1);
+    						if(cookies_list.length===0) {
+    							delete cookies[cookie.name]
+    						}
+    						return false;
+    					}
+    					else {
+    						return cookies_list[i]=cookie;
+    					}
+    				}
+    			}
+    			if(remove) {
+    				return false;
+    			}
+    			cookies_list.push(cookie);
+    			return cookie;
+    		}
+    		else if(remove){
+    			return false;
+    		}
+    		else {
+    			return cookies[cookie.name]=[cookie];
+    		}
+    	}
+    	//returns a cookie
+    	this.getCookie = function getCookie(cookie_name,access_info) {
+    		var cookies_list = cookies[cookie_name];
+    		for(var i=0;i<cookies_list.length;i++) {
+    			var cookie = cookies_list[i];
+    			if(cookie.expiration_date <= Date.now()) {
+    				if(cookies_list.length===0) {
+    					delete cookies[cookie.name]
+    				}
+    				continue;
+    			}
+    			if(cookie.matches(access_info)) {
+    				return cookie;
+    			}
+    		}
+    	}
+    	//returns a list of cookies
+    	this.getCookies = function getCookies(access_info) {
+    		var matches=[];
+    		for(var cookie_name in cookies) {
+    			var cookie=this.getCookie(cookie_name,access_info);
+    			if (cookie) {
+    				matches.push(cookie);
+    			}
+    		}
+    		matches.toString=function toString(){return matches.join(":");}
             matches.toValueString=function() {return matches.map(function(c){return c.toValueString();}).join(';');}
-        return matches;
-      }
+    		return matches;
+    	}
     
-      return this;
-  }
+    	return this;
+	}
     return new CookieJar()
 }
 
 
 //returns list of cookies that were set correctly
 CookieJar.prototype.setCookies = function setCookies(cookies) {
-  cookies=Array.isArray(cookies)
-    ?cookies
-    :cookies.split(cookie_str_splitter);
-  var successful=[]
-  for(var i=0;i<cookies.length;i++) {
-    var cookie = Cookie(cookies[i]);
-    if(this.setCookie(cookie)) {
-      successful.push(cookie);
-    }
-  }
-  return successful;
+	cookies=Array.isArray(cookies)
+		?cookies
+		:cookies.split(cookie_str_splitter);
+	var successful=[]
+	for(var i=0;i<cookies.length;i++) {
+		var cookie = Cookie(cookies[i]);
+		if(this.setCookie(cookie)) {
+			successful.push(cookie);
+		}
+	}
+	return successful;
 }
 
 });
@@ -854,7 +854,9 @@ Object.defineProperties(Request.prototype, {
 
 // - **url**. You can set the `url` property with a valid URL string and all the
 //   URL-related properties (host, port, etc.) will be automatically set on the
-//   request object.
+//   request object. The source URL is used if the requested URL is missing any 
+//   URL-related properties.  This allows URLs such as: "/path/1" or 
+//   "//server/path/2".
 
   url: {
     get: function() {
@@ -866,9 +868,10 @@ Object.defineProperties(Request.prototype, {
     },
     set: function(_url) {
       _url = parseUri(_url);
-      this.scheme = _url.protocol;
-      this.host = _url.host;
-      this.port = _url.port;
+      var _sourceUrl = typeof window === "undefined" ? parseUri("") : parseUri(window.location.href);
+      this.scheme = _url.protocol === "" ? _sourceUrl.protocol : _url.protocol;
+      this.host = _url.host === "" ? _sourceUrl.host : _url.host;
+      this.port = _url.port === "" && _url.host === "" ? _sourceUrl.port : _url.port;
       this.path = _url.path;
       this.query = _url.query;
       return this;
@@ -1240,8 +1243,8 @@ var createRequest = function(request) {
   // underlying request object.
   if (request.content) {
     request.log.debug("Streaming body: '" +
-        request.content.data.slice(0,59) + "' ... ");
-    request._raw.write(request.content.data);
+        request.content.body.slice(0,59) + "' ... ");
+    request._raw.write(request.content.body);
   }
 
   // Finally, we need to set up the timeout. We do this last so that we don't
@@ -1306,32 +1309,32 @@ require.define("/shred/parseUri.js", function (require, module, exports, __dirna
 // MIT License
 
 function parseUri (str) {
-  var o   = parseUri.options,
-    m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
-    uri = {},
-    i   = 14;
+	var	o   = parseUri.options,
+		m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
+		uri = {},
+		i   = 14;
 
-  while (i--) uri[o.key[i]] = m[i] || "";
+	while (i--) uri[o.key[i]] = m[i] || "";
 
-  uri[o.q.name] = {};
-  uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
-    if ($1) uri[o.q.name][$1] = $2;
-  });
+	uri[o.q.name] = {};
+	uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
+		if ($1) uri[o.q.name][$1] = $2;
+	});
 
-  return uri;
+	return uri;
 };
 
 parseUri.options = {
-  strictMode: false,
-  key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
-  q:   {
-    name:   "queryKey",
-    parser: /(?:^|&)([^&=]*)=?([^&]*)/g
-  },
-  parser: {
-    strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
-    loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
-  }
+	strictMode: false,
+	key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
+	q:   {
+		name:   "queryKey",
+		parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+	},
+	parser: {
+		strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+		loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+	}
 };
 
 module.exports = parseUri;
@@ -1582,127 +1585,127 @@ Changelog:
 **/
 
 var sprintf = (function() {
-  function get_type(variable) {
-    return Object.prototype.toString.call(variable).slice(8, -1).toLowerCase();
-  }
-  function str_repeat(input, multiplier) {
-    for (var output = []; multiplier > 0; output[--multiplier] = input) {/* do nothing */}
-    return output.join('');
-  }
+	function get_type(variable) {
+		return Object.prototype.toString.call(variable).slice(8, -1).toLowerCase();
+	}
+	function str_repeat(input, multiplier) {
+		for (var output = []; multiplier > 0; output[--multiplier] = input) {/* do nothing */}
+		return output.join('');
+	}
 
-  var str_format = function() {
-    if (!str_format.cache.hasOwnProperty(arguments[0])) {
-      str_format.cache[arguments[0]] = str_format.parse(arguments[0]);
-    }
-    return str_format.format.call(null, str_format.cache[arguments[0]], arguments);
-  };
+	var str_format = function() {
+		if (!str_format.cache.hasOwnProperty(arguments[0])) {
+			str_format.cache[arguments[0]] = str_format.parse(arguments[0]);
+		}
+		return str_format.format.call(null, str_format.cache[arguments[0]], arguments);
+	};
 
-  str_format.format = function(parse_tree, argv) {
-    var cursor = 1, tree_length = parse_tree.length, node_type = '', arg, output = [], i, k, match, pad, pad_character, pad_length;
-    for (i = 0; i < tree_length; i++) {
-      node_type = get_type(parse_tree[i]);
-      if (node_type === 'string') {
-        output.push(parse_tree[i]);
-      }
-      else if (node_type === 'array') {
-        match = parse_tree[i]; // convenience purposes only
-        if (match[2]) { // keyword argument
-          arg = argv[cursor];
-          for (k = 0; k < match[2].length; k++) {
-            if (!arg.hasOwnProperty(match[2][k])) {
-              throw(sprintf('[sprintf] property "%s" does not exist', match[2][k]));
-            }
-            arg = arg[match[2][k]];
-          }
-        }
-        else if (match[1]) { // positional argument (explicit)
-          arg = argv[match[1]];
-        }
-        else { // positional argument (implicit)
-          arg = argv[cursor++];
-        }
+	str_format.format = function(parse_tree, argv) {
+		var cursor = 1, tree_length = parse_tree.length, node_type = '', arg, output = [], i, k, match, pad, pad_character, pad_length;
+		for (i = 0; i < tree_length; i++) {
+			node_type = get_type(parse_tree[i]);
+			if (node_type === 'string') {
+				output.push(parse_tree[i]);
+			}
+			else if (node_type === 'array') {
+				match = parse_tree[i]; // convenience purposes only
+				if (match[2]) { // keyword argument
+					arg = argv[cursor];
+					for (k = 0; k < match[2].length; k++) {
+						if (!arg.hasOwnProperty(match[2][k])) {
+							throw(sprintf('[sprintf] property "%s" does not exist', match[2][k]));
+						}
+						arg = arg[match[2][k]];
+					}
+				}
+				else if (match[1]) { // positional argument (explicit)
+					arg = argv[match[1]];
+				}
+				else { // positional argument (implicit)
+					arg = argv[cursor++];
+				}
 
-        if (/[^s]/.test(match[8]) && (get_type(arg) != 'number')) {
-          throw(sprintf('[sprintf] expecting number but found %s', get_type(arg)));
-        }
-        switch (match[8]) {
-          case 'b': arg = arg.toString(2); break;
-          case 'c': arg = String.fromCharCode(arg); break;
-          case 'd': arg = parseInt(arg, 10); break;
-          case 'e': arg = match[7] ? arg.toExponential(match[7]) : arg.toExponential(); break;
-          case 'f': arg = match[7] ? parseFloat(arg).toFixed(match[7]) : parseFloat(arg); break;
-          case 'o': arg = arg.toString(8); break;
-          case 's': arg = ((arg = String(arg)) && match[7] ? arg.substring(0, match[7]) : arg); break;
-          case 'u': arg = Math.abs(arg); break;
-          case 'x': arg = arg.toString(16); break;
-          case 'X': arg = arg.toString(16).toUpperCase(); break;
-        }
-        arg = (/[def]/.test(match[8]) && match[3] && arg >= 0 ? '+'+ arg : arg);
-        pad_character = match[4] ? match[4] == '0' ? '0' : match[4].charAt(1) : ' ';
-        pad_length = match[6] - String(arg).length;
-        pad = match[6] ? str_repeat(pad_character, pad_length) : '';
-        output.push(match[5] ? arg + pad : pad + arg);
-      }
-    }
-    return output.join('');
-  };
+				if (/[^s]/.test(match[8]) && (get_type(arg) != 'number')) {
+					throw(sprintf('[sprintf] expecting number but found %s', get_type(arg)));
+				}
+				switch (match[8]) {
+					case 'b': arg = arg.toString(2); break;
+					case 'c': arg = String.fromCharCode(arg); break;
+					case 'd': arg = parseInt(arg, 10); break;
+					case 'e': arg = match[7] ? arg.toExponential(match[7]) : arg.toExponential(); break;
+					case 'f': arg = match[7] ? parseFloat(arg).toFixed(match[7]) : parseFloat(arg); break;
+					case 'o': arg = arg.toString(8); break;
+					case 's': arg = ((arg = String(arg)) && match[7] ? arg.substring(0, match[7]) : arg); break;
+					case 'u': arg = Math.abs(arg); break;
+					case 'x': arg = arg.toString(16); break;
+					case 'X': arg = arg.toString(16).toUpperCase(); break;
+				}
+				arg = (/[def]/.test(match[8]) && match[3] && arg >= 0 ? '+'+ arg : arg);
+				pad_character = match[4] ? match[4] == '0' ? '0' : match[4].charAt(1) : ' ';
+				pad_length = match[6] - String(arg).length;
+				pad = match[6] ? str_repeat(pad_character, pad_length) : '';
+				output.push(match[5] ? arg + pad : pad + arg);
+			}
+		}
+		return output.join('');
+	};
 
-  str_format.cache = {};
+	str_format.cache = {};
 
-  str_format.parse = function(fmt) {
-    var _fmt = fmt, match = [], parse_tree = [], arg_names = 0;
-    while (_fmt) {
-      if ((match = /^[^\x25]+/.exec(_fmt)) !== null) {
-        parse_tree.push(match[0]);
-      }
-      else if ((match = /^\x25{2}/.exec(_fmt)) !== null) {
-        parse_tree.push('%');
-      }
-      else if ((match = /^\x25(?:([1-9]\d*)\$|\(([^\)]+)\))?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-fosuxX])/.exec(_fmt)) !== null) {
-        if (match[2]) {
-          arg_names |= 1;
-          var field_list = [], replacement_field = match[2], field_match = [];
-          if ((field_match = /^([a-z_][a-z_\d]*)/i.exec(replacement_field)) !== null) {
-            field_list.push(field_match[1]);
-            while ((replacement_field = replacement_field.substring(field_match[0].length)) !== '') {
-              if ((field_match = /^\.([a-z_][a-z_\d]*)/i.exec(replacement_field)) !== null) {
-                field_list.push(field_match[1]);
-              }
-              else if ((field_match = /^\[(\d+)\]/.exec(replacement_field)) !== null) {
-                field_list.push(field_match[1]);
-              }
-              else {
-                throw('[sprintf] huh?');
-              }
-            }
-          }
-          else {
-            throw('[sprintf] huh?');
-          }
-          match[2] = field_list;
-        }
-        else {
-          arg_names |= 2;
-        }
-        if (arg_names === 3) {
-          throw('[sprintf] mixing positional and named placeholders is not (yet) supported');
-        }
-        parse_tree.push(match);
-      }
-      else {
-        throw('[sprintf] huh?');
-      }
-      _fmt = _fmt.substring(match[0].length);
-    }
-    return parse_tree;
-  };
+	str_format.parse = function(fmt) {
+		var _fmt = fmt, match = [], parse_tree = [], arg_names = 0;
+		while (_fmt) {
+			if ((match = /^[^\x25]+/.exec(_fmt)) !== null) {
+				parse_tree.push(match[0]);
+			}
+			else if ((match = /^\x25{2}/.exec(_fmt)) !== null) {
+				parse_tree.push('%');
+			}
+			else if ((match = /^\x25(?:([1-9]\d*)\$|\(([^\)]+)\))?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-fosuxX])/.exec(_fmt)) !== null) {
+				if (match[2]) {
+					arg_names |= 1;
+					var field_list = [], replacement_field = match[2], field_match = [];
+					if ((field_match = /^([a-z_][a-z_\d]*)/i.exec(replacement_field)) !== null) {
+						field_list.push(field_match[1]);
+						while ((replacement_field = replacement_field.substring(field_match[0].length)) !== '') {
+							if ((field_match = /^\.([a-z_][a-z_\d]*)/i.exec(replacement_field)) !== null) {
+								field_list.push(field_match[1]);
+							}
+							else if ((field_match = /^\[(\d+)\]/.exec(replacement_field)) !== null) {
+								field_list.push(field_match[1]);
+							}
+							else {
+								throw('[sprintf] huh?');
+							}
+						}
+					}
+					else {
+						throw('[sprintf] huh?');
+					}
+					match[2] = field_list;
+				}
+				else {
+					arg_names |= 2;
+				}
+				if (arg_names === 3) {
+					throw('[sprintf] mixing positional and named placeholders is not (yet) supported');
+				}
+				parse_tree.push(match);
+			}
+			else {
+				throw('[sprintf] huh?');
+			}
+			_fmt = _fmt.substring(match[0].length);
+		}
+		return parse_tree;
+	};
 
-  return str_format;
+	return str_format;
 })();
 
 var vsprintf = function(fmt, argv) {
-  argv.unshift(fmt);
-  return sprintf.apply(null, argv);
+	argv.unshift(fmt);
+	return sprintf.apply(null, argv);
 };
 
 exports.sprintf = sprintf;
@@ -1809,7 +1812,7 @@ var Response = function(raw, request, callback) {
 
     var setBodyAndFinish = function (body) {
       response._body = new Content({ 
-        body: body,
+      	body: body,
         type: response.getHeader("Content-Type")
       });
       callback(response);
@@ -2132,7 +2135,7 @@ require.define("/shred/mixins/headers.js", function (require, module, exports, _
 
 var corsetCase = function(string) {
   return string.toLowerCase()
-      //.replace("_","-")
+      .replace("_","-")
       .replace(/(^|-)(\w)/g, 
           function(s) { return s.toUpperCase(); });
 };
